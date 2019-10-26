@@ -120,12 +120,16 @@ public class AddSessionFragment extends Fragment implements ValueEventListener {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String question = questionInput.getText().toString();
-                if(TextUtils.isEmpty(question)) {
-                    dialogInterface.cancel();
-                } else {
+                if(!TextUtils.isEmpty(question)) {
                     questions.add(question);
                     addTextView(question);
                 }
+            }
+        });
+        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
             }
         });
 

@@ -3,6 +3,7 @@ package com.example.planningpoker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -146,10 +147,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(new Intent(MainActivity.this, SessionActivity.class));
         finish();
     }
-
-    // FirebaseDatabase database = FirebaseDatabase.getInstance();
-    // DatabaseReference ref = database.getReference("registration");
-
-
 }
 

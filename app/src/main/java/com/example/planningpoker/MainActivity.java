@@ -13,10 +13,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
@@ -76,20 +79,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void onClick(View v) {
         if (v == btn_login) {
+            email = et_loginEmail.getText().toString().trim();
+            password = et_password.getText().toString().trim();
+            if(email.isEmpty())
+            {
+                et_loginEmail.setError(getString(R.string.regNameError));
+                et_loginEmail.requestFocus();
+                return;
+            }
+            if(password.isEmpty())
+            {
+                et_password.setError(getString(R.string.regEmailError));
+                et_password.requestFocus();
+                return;
+            }
 
-            auth.fetchSignInMethodsForEmail(et_loginEmail.getText().toString()).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
-                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                    if(task.getResult().getSignInMethods().isEmpty())
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(!task.isSuccessful())
                     {
-                        Toast.makeText(getApplicationContext(),"Invalid email adress",Toast.LENGTH_LONG).show();
-
+                        Snackbar error = Snackbar.make(v, getString(R.string.loginError), Snackbar.LENGTH_SHORT);
+                        error.getView().setBackgroundColor(getResources().getColor(R.color.RED));
+                        TextView snackbarText = error.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+                        snackbarText.setBackgroundColor(getResources().getColor(R.color.RED));
+                        error.show();
                     }
                     else{
-
-                        Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
                         doSomethingElse();
-
                     }
                 }
             });
@@ -98,12 +115,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void doSomethingElse() {
-        startActivity(new Intent(MainActivity.this, SessionActivity.class));
+        startActivity(new Intent(MainActivity.this, SessionsActivity.class));
         finish();
     }
-
-    // FirebaseDatabase database = FirebaseDatabase.getInstance();
-    // DatabaseReference ref = database.getReference("registration");
 
 
 }

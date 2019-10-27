@@ -3,16 +3,19 @@ package com.example.planningpoker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -28,8 +31,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        //databaseUsers = FirebaseDatabase.getInstance().getReference("users"); // a json file users -nodeja
 
         et_name = (EditText) findViewById(R.id.editText_name);
         et_email = (EditText) findViewById(R.id.editText_email);
@@ -59,34 +60,34 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if(name.isEmpty())
         {
-            et_name.setError("Name required");
+            et_name.setError(getString(R.string.regNameError));
             et_name.requestFocus();
             return;
         }
         if(email.isEmpty())
         {
-            et_email.setError("Email required");
+            et_email.setError(getString(R.string.regEmailError));
             et_email.requestFocus();
             return;
         }
 
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches())
         {
-            et_email.setError("enter a valid email");
+            et_email.setError(getString(R.string.invalidEmail));
             et_email.requestFocus();
             return;
         }
 
         if(password.isEmpty())
         {
-            et_password.setError("Password required");
+            et_password.setError(getString(R.string.regPassError));
             et_password.requestFocus();
             return;
         }
 
         if(password.length() < 6)
         {
-            et_password.setError("password should be at least 6 characters");
+            et_password.setError(getString(R.string.invalidPassword));
             et_password.requestFocus();
             return;
         }
@@ -103,11 +104,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful())
                             {
-                                Toast.makeText(RegisterActivity.this,"Siker", Toast.LENGTH_LONG).show();
+                                Intent loginIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                                startActivity(loginIntent);
                             }
                             else
                             {
-                                Toast.makeText(RegisterActivity.this,"Task failed",Toast.LENGTH_LONG).show();
+                                Snackbar error = Snackbar.make(findViewById(R.id.container), getString(R.string.registerError), Snackbar.LENGTH_SHORT);
+                                error.getView().setBackgroundColor(getResources().getColor(R.color.RED));
+                                TextView snackbarText = error.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+                                snackbarText.setBackgroundColor(getResources().getColor(R.color.RED));
+                                error.show();
                             }
                         }
                     });

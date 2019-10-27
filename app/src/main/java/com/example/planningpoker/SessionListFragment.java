@@ -16,12 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -35,7 +37,7 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Session> sessions = new ArrayList<Session>();
-    private DatabaseReference database = FirebaseDatabase.getInstance().getReference("sessions");
+    private DatabaseReference database;
     private Button addSession;
     private int userType = 1; //Todo
 
@@ -50,6 +52,7 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
         view = inflater.inflate(R.layout.fragment_session_list, container, false);
 
         initSessionList();
+        getUserType();
         setListData();
 
         addSession = view.findViewById(R.id.addSession);
@@ -59,6 +62,14 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
         addSession.setOnClickListener(this);
 
         return view;
+    }
+
+    public void getUserType(){
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        //String userId = mAuth.getCurrentUser().getUid();
+
+        database = FirebaseDatabase.getInstance().getReference("users");
+
     }
 
     public void initSessionList(){
@@ -71,6 +82,7 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
     }
 
     public void setListData(){
+        database = FirebaseDatabase.getInstance().getReference("sessions");
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

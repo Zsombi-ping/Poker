@@ -11,4 +11,13 @@
     <string name="back">Back</string>
     <string name="joinSession">"Join session"</string>
     <string name="noResponses">"No responses"</string>
+    <string name="loginSuccessful">"Login Successful"</string>
+    <string name="loginError">"Invalid email or password"</string>
+    <string name="loginTitle">Login</string>
+    <string name="emailAddress">"Email"</string>
+    <string name="password">Password</string>
+    <string name="userName">Username</string>
+    <string name="rememberMe">"Remember me"</string>
+    <string name="registerTitle">Register</string>
+    <string name="registerError">"Missing information"</string>
 </resources>

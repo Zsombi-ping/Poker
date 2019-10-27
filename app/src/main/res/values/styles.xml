@@ -5,7 +5,7 @@
         <item name="android:background">@color/BLACK</item>
         <item name="android:colorPrimaryDark">@color/BLACK</item>
         <item name="android:textColor">@color/WHITE</item>
-        <item name="android:textColorHint">#50DBDBDB</item>
+        <item name="android:textColorHint">@color/GREY</item>
         <item name="android:editTextColor">@color/WHITE</item>
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textSize">13sp</item>

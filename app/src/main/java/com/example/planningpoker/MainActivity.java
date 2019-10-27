@@ -17,6 +17,11 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MainActivity.this, SessionsActivity.class);
         startActivity(intent);
+
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference("responses");
+        database.child("0").child("question1").child("dsfsff").setValue(2);
+        database.child("0").child("question0").child("dsfsdf").setValue(3);
+        database.child("0").child("question1").child("dsfsdf").setValue(3);
     }
 
 }

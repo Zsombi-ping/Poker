@@ -3,11 +3,11 @@ package com.example.planningpoker;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,9 +34,10 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
     private RecyclerView sessionList;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<Session> sessions = new ArrayList<Session>();;
+    private ArrayList<Session> sessions = new ArrayList<Session>();
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference("sessions");
     private Button addSession;
+    private int userType = 1; //Todo
 
     public SessionListFragment() {
         // Required empty public constructor
@@ -53,6 +53,9 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
         setListData();
 
         addSession = view.findViewById(R.id.addSession);
+        if (userType == 0){
+            addSession.setVisibility(View.INVISIBLE);
+        }
         addSession.setOnClickListener(this);
 
         return view;
@@ -92,7 +95,15 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
     }
 
     public void showDialog(Session session) {
-        final CharSequence[] items = {getString(R.string.deleteSession), getString(R.string.viewResponses)};
+        CharSequence[] items;
+        if (userType == 1){
+            //user is admin
+            items = new String[]{getString(R.string.deleteSession), getString(R.string.viewResponses)};
+        } else {
+            //user is developer
+            items = new String[]{getString(R.string.joinSession)};
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(session.getSessionName())
                 .setItems(items, new DialogInterface.OnClickListener() {
@@ -100,11 +111,19 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
                     public void onClick(DialogInterface dialogInterface, int i) {
                         switch (i){
                             case 0:
-                                database.child(session.getSessionId()).removeValue();
-                                adapter.notifyDataSetChanged();
+                                if (userType == 1){
+                                    //delete session and refresh list
+                                    database.child(session.getSessionId()).removeValue();
+                                    sessions.remove(session);
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    //Todo go to questions activity
+                                }
                                 break;
                             case 1:
-                                //TODO view responses
+                                Intent responsesIntent = new Intent(getActivity(), ViewResponsesActivity.class);
+                                responsesIntent.putExtra("sessionId",session.getSessionId());
+                                startActivity(responsesIntent);
                                 break;
                         }
                     }

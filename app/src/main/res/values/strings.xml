@@ -9,4 +9,6 @@
     <string name="addQuestion">"Add question"</string>
     <string name="addSessionError">"Session name or questions are missing!"</string>
     <string name="back">Back</string>
+    <string name="joinSession">"Join session"</string>
+    <string name="noResponses">"No responses"</string>
 </resources>

@@ -41,8 +41,8 @@
         android:id="@+id/questionContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="300dp"
+        android:layout_below="@+id/questionsTitle"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:padding="10dp" />
 
@@ -70,10 +70,10 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="70dp"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_background"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:background="@drawable/button_background"
         android:text="@string/addSession" />
 
     <Button
@@ -84,10 +84,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginEnd="70dp"
-        android:layout_marginRight="70dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginEnd="80dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:background="@drawable/button_background"

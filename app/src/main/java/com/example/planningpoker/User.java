@@ -1,7 +1,7 @@
 package com.example.planningpoker;
 
 public class User {
-    String userId;
+
     String userName;
     String userEmail;
     String userPassword;
@@ -12,17 +12,14 @@ public class User {
 
     }
 
-    public User(String userId, String userName, String userEmail, String userPassword,Integer userType) {
-        this.userId = userId;
+    public User(String userName, String userEmail, String userPassword,Integer userType) {
+
         this.userName = userName;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         this.userType = userType;
     }
 
-    public String getUserId() {
-        return userId;
-    }
 
     public String getUserName() {
         return userName;

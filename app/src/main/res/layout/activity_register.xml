@@ -4,35 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".RegisterActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
-        android:text="LOGIN"
+        android:text="REGISTER"
         android:textSize="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText_loginEmail"
+        android:id="@+id/editText_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="130dp"
         android:layout_marginLeft="20dp"
         android:ems="15"
-        android:hint="Email adress"
+        android:hint="Name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/editText_password"
+        android:id="@+id/editText_passw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="310dp"
         android:layout_marginLeft="20dp"
         android:ems="15"
         android:hint="Password"
@@ -40,40 +40,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <Button
-        android:id="@+id/button_login"
+    <EditText
+        android:id="@+id/editText_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_below="@+id/editText_password"
-        android:layout_marginTop="93dp"
-        android:gravity = "center"
-        android:text="LOGIN" />
-
-    <Button
-        android:id="@+id/button_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_password"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="93dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:text="Register" />
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_password"
-        android:layout_marginTop="34dp"
+        android:layout_marginTop="220dp"
         android:layout_marginLeft="20dp"
-        android:text="Remember me" />
+        android:ems="15"
+        android:hint="Email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-
-    />
-
-
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_passw"
+        android:layout_marginTop="70dp"
+        android:text="register"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

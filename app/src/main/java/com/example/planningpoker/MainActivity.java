@@ -3,7 +3,6 @@ package com.example.planningpoker;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +19,10 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,14 +38,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn_register, btn_login;
     private EditText et_loginEmail, et_password;
     private String email, password;
-    private CheckBox cb;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Boolean saveLogin;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference rootRef, itemsRef;
-    private ArrayList items_emails;
-    private ArrayList items_passwords;
+    private FirebaseAuth auth;
 
 
     @Override
@@ -54,33 +55,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_login = findViewById(R.id.button_login);
         et_loginEmail = findViewById(R.id.editText_loginEmail);
         et_password = findViewById(R.id.editText_password);
-        cb = findViewById(R.id.checkBox);
+        auth = FirebaseAuth.getInstance();
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         rootRef = firebaseDatabase.getReference();
-        itemsRef = rootRef.child("users");
-        items_emails = new ArrayList<String>();
-        items_passwords = new ArrayList<String>();
-
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren())
-                {
-                    String emails = ds.child("userEmail").getValue(String.class);
-                    items_emails.add(emails);
-                    String passwords = ds.child("userPassword").getValue(String.class);
-                    items_passwords.add(passwords);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        itemsRef.addListenerForSingleValueEvent(valueEventListener);
+        itemsRef = rootRef.child("Users");
 
 
         btn_login.setOnClickListener(this);
@@ -95,61 +75,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
-        sharedPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        saveLogin = sharedPreferences.getBoolean("saveLogin", false);
-
-        if (saveLogin == true) {
-            et_loginEmail.setText(sharedPreferences.getString("useremail", ""));
-            et_password.setText(sharedPreferences.getString("password", ""));
-            cb.setChecked(true);
-
-        }
-
     }
 
     public void onClick(View v) {
         if (v == btn_login) {
-
-
-            email = et_loginEmail.getText().toString();
-            password = et_password.getText().toString();
-
-            if(items_emails.contains(email) && items_passwords.contains(password))
+            email = et_loginEmail.getText().toString().trim();
+            password = et_password.getText().toString().trim();
+            if(email.isEmpty())
             {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(et_loginEmail.getWindowToken(), 0);
+                et_loginEmail.setError(getString(R.string.regNameError));
+                et_loginEmail.requestFocus();
+                return;
+            }
+            if(password.isEmpty())
+            {
+                et_password.setError(getString(R.string.regEmailError));
+                et_password.requestFocus();
+                return;
+            }
 
-                if (cb.isChecked()) {
-                    editor.putBoolean("saveLogin", true);
-                    editor.putString("useremail", email);
-                    editor.putString("password", password);
-
-                    editor.commit();
-                } else {
-                    editor.clear();
-                    editor.commit();
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(!task.isSuccessful())
+                    {
+                        Snackbar error = Snackbar.make(v, getString(R.string.loginError), Snackbar.LENGTH_SHORT);
+                        error.getView().setBackgroundColor(getResources().getColor(R.color.RED));
+                        TextView snackbarText = error.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+                        snackbarText.setBackgroundColor(getResources().getColor(R.color.RED));
+                        error.show();
+                    }
+                    else{
+                        doSomethingElse();
+                    }
                 }
+            });
 
-
-                doSomethingElse();
-
-            }
-            else{
-                Snackbar error = Snackbar.make(v, getString(R.string.loginError), Snackbar.LENGTH_SHORT);
-                error.getView().setBackgroundColor(getResources().getColor(R.color.RED));
-                TextView snackbarText = error.getView().findViewById(com.google.android.material.R.id.snackbar_text);
-                snackbarText.setBackgroundColor(getResources().getColor(R.color.RED));
-                error.show();
-            }
         }
-
     }
 
     public void doSomethingElse() {
         startActivity(new Intent(MainActivity.this, SessionsActivity.class));
         finish();
     }
+
+
 }
 

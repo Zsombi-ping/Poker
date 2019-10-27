@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,7 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
     private ArrayList<Session> sessions = new ArrayList<Session>();
     private DatabaseReference database;
     private Button addSession;
-    private int userType = 1; //Todo
+    private int userType;
 
     public SessionListFragment() {
         // Required empty public constructor
@@ -51,25 +52,43 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_session_list, container, false);
 
+        addSession = view.findViewById(R.id.addSession);
+        addSession.setVisibility(View.INVISIBLE);
+
+        readCurrentUserData(new FirebaseCallback() {
+            @Override
+            public void onCallback(int type) {
+                userType = type;
+                if (userType == 1) {
+                    addSession.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         initSessionList();
-        getUserType();
         setListData();
 
-        addSession = view.findViewById(R.id.addSession);
-        if (userType == 0){
-            addSession.setVisibility(View.INVISIBLE);
-        }
         addSession.setOnClickListener(this);
-
         return view;
     }
 
-    public void getUserType(){
+    public void readCurrentUserData(FirebaseCallback callback){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        //String userId = mAuth.getCurrentUser().getUid();
+        String userId = mAuth.getCurrentUser().getUid();
 
-        database = FirebaseDatabase.getInstance().getReference("users");
+        database = FirebaseDatabase.getInstance().getReference("Users");
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.child(userId).getValue(User.class);
+                callback.onCallback(user.getUserType());
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void initSessionList(){
@@ -147,5 +166,9 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
     @Override
     public void onClick(View view) {
         ((SessionsActivity)getActivity()).replaceFragment(new AddSessionFragment());
+    }
+
+    private interface FirebaseCallback{
+        void onCallback(int userType);
     }
 }

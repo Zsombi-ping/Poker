@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
@@ -18,10 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,7 +69,9 @@ public class AddSessionFragment extends Fragment implements ValueEventListener {
 
                 if (TextUtils.isEmpty(sessionName) || questions.isEmpty()){
                     Snackbar error = Snackbar.make(view, getString(R.string.addSessionError), Snackbar.LENGTH_SHORT);
-                    error.getView().setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.RED));
+                    error.getView().setBackgroundColor(getResources().getColor(R.color.RED));
+                    TextView snackbarText = error.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+                    snackbarText.setBackgroundColor(getResources().getColor(R.color.RED));
                     error.show();
                 } else {
                     Session session = new Session(String.valueOf(sessionCounter),sessionName, questions);
@@ -120,12 +118,16 @@ public class AddSessionFragment extends Fragment implements ValueEventListener {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 String question = questionInput.getText().toString();
-                if(TextUtils.isEmpty(question)) {
-                    dialogInterface.cancel();
-                } else {
+                if(!TextUtils.isEmpty(question)) {
                     questions.add(question);
                     addTextView(question);
                 }
+            }
+        });
+        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
             }
         });
 

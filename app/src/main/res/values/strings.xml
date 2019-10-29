@@ -9,4 +9,21 @@
     <string name="addQuestion">"Add question"</string>
     <string name="addSessionError">"Session name or questions are missing!"</string>
     <string name="back">Back</string>
+    <string name="joinSession">"Join session"</string>
+    <string name="noResponses">"No responses"</string>
+    <string name="loginSuccessful">"Login Successful"</string>
+    <string name="loginError">"Invalid email or password"</string>
+    <string name="loginTitle">Login</string>
+    <string name="emailAddress">"Email"</string>
+    <string name="password">Password</string>
+    <string name="userName">Username</string>
+    <string name="rememberMe">"Remember me"</string>
+    <string name="registerTitle">Register</string>
+    <string name="registerSuccess">"Registration was successful!"</string>
+    <string name="registerError">"Registration failed, please try again!"</string>
+    <string name="regNameError">"Name is required"</string>
+    <string name="regEmailError">"Email is required"</string>
+    <string name="invalidEmail">"Email is not valid"</string>
+    <string name="regPassError">"Password is required"</string>
+    <string name="invalidPassword">"Password should be at least 6 characters"</string>
 </resources>

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="60dp"
         android:text="@string/registerTitle"
         android:textAlignment="center"
         android:textSize="30sp"
@@ -25,7 +25,7 @@
         android:layout_below="@+id/textView_register"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:hint="@string/userName" />
@@ -34,7 +34,7 @@
         android:id="@+id/editText_passw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginEnd="10dp"
@@ -52,7 +52,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:hint="@string/emailAddress"/>
 
     <Button
@@ -60,15 +60,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editText_passw"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="160dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/button_background"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:layout_centerHorizontal="true"
         android:text="@string/registerTitle" />
 
 </RelativeLayout>

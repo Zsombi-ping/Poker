@@ -36,13 +36,14 @@ public class ViewResponsesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_responses);
 
         noResponses = findViewById(R.id.noResponses);
+        noResponses.setVisibility(View.INVISIBLE);
         sessionId = getIntent().getStringExtra("sessionId");
         readData(questionResponses -> initializeResponseList());
     }
 
     public void initializeResponseList(){
-        if (sessionResponses.size() != 0){
-            noResponses.setVisibility(View.INVISIBLE);
+        if (sessionResponses.size() == 0){
+            noResponses.setVisibility(View.VISIBLE);
         }
 
         responseList = findViewById(R.id.responseContainer);

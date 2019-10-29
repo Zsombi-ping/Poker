@@ -7,6 +7,7 @@ import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.common.api.Response;
 
 import java.util.ArrayList;
+
+import static android.widget.GridLayout.*;
 
 public class ResponseListAdapter extends RecyclerView.Adapter<ResponseListAdapter.ListViewHolder> {
     private ArrayList<QuestionResponses> questionResponses;
@@ -56,7 +59,7 @@ public class ResponseListAdapter extends RecyclerView.Adapter<ResponseListAdapte
             response.setTextColor(Color.WHITE);
             responseContainer.addView(response);
 
-            holder.responsesContainer.addView(responseContainer);
+            holder.responsesContainer.addView(responseContainer, holder.responsesContainer.getChildCount());
         }
     }
 
@@ -67,7 +70,7 @@ public class ResponseListAdapter extends RecyclerView.Adapter<ResponseListAdapte
 
     public class ListViewHolder extends RecyclerView.ViewHolder {
         private TextView question;
-        private LinearLayout responsesContainer;
+        private GridLayout responsesContainer;
 
         public ListViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -37,10 +37,11 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
     private RecyclerView sessionList;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private ArrayList<Session> sessions = new ArrayList<Session>();
+    private ArrayList<Session> sessions = new ArrayList<>();
     private DatabaseReference database;
     private Button addSession;
     private int userType;
+    private String userName;
 
     public SessionListFragment() {
         // Required empty public constructor
@@ -55,13 +56,11 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
         addSession = view.findViewById(R.id.addSession);
         addSession.setVisibility(View.INVISIBLE);
 
-        readCurrentUserData(new FirebaseCallback() {
-            @Override
-            public void onCallback(int type) {
-                userType = type;
-                if (userType == 1) {
-                    addSession.setVisibility(View.VISIBLE);
-                }
+        readCurrentUserData(user -> {
+            userType = user.getUserType();
+            userName = user.getUserName();
+            if (userType == 1) {
+                addSession.setVisibility(View.VISIBLE);
             }
         });
 
@@ -81,7 +80,7 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.child(userId).getValue(User.class);
-                callback.onCallback(user.getUserType());
+                callback.onCallback(user);
             }
 
             @Override
@@ -148,7 +147,10 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
                                     sessions.remove(session);
                                     adapter.notifyDataSetChanged();
                                 } else {
-                                    //Todo go to questions activity
+                                    Intent questionsIntent = new Intent(getActivity(),QuestionsActivity.class);
+                                    questionsIntent.putExtra("sessionId",session.getSessionId());
+                                    questionsIntent.putExtra("userName",userName);
+                                    startActivity(questionsIntent);
                                 }
                                 break;
                             case 1:
@@ -169,6 +171,6 @@ public class SessionListFragment extends Fragment implements SessionsListAdapter
     }
 
     private interface FirebaseCallback{
-        void onCallback(int userType);
+        void onCallback(User user);
     }
 }

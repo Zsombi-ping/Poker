@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".SessionsActivity"></activity>
-        <activity android:name=".ViewResponsesActivity"></activity>
+        <activity android:name=".QuestionsActivity"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".SessionsActivity" />
+        <activity android:name=".ViewResponsesActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

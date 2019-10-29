@@ -26,4 +26,6 @@
     <string name="invalidEmail">"Email is not valid"</string>
     <string name="regPassError">"Password is required"</string>
     <string name="invalidPassword">"Password should be at least 6 characters"</string>
+    <string name="send">Send</string>
+    <string name="chooseCardError">"Please pick a card!"</string>
 </resources>

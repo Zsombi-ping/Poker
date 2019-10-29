@@ -20,7 +20,7 @@
         android:id="@+id/noResponses"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         android:layout_below="@+id/viewResponsesTitle"
         android:text="@string/noResponses"
         android:textAlignment="center"/>
